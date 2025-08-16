@@ -322,6 +322,7 @@ function App() {
           course={modalCourse}
           isOpen={isModalOpen}
           onClose={closeModal}
+          onCourseClick={handleCourseClick}
         />
       )}
     </div>
