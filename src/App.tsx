@@ -58,10 +58,10 @@ function App() {
             {/* Center: Contact Info */}
             <div className="flex-1 flex justify-center">
               <div className="bg-white border-2 border-black shadow-brutal px-4 py-2">
-                <div className="text-xs font-bold text-black space-x-4 text-center">
-                  <span>Star us on <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">GitHub</a></span>
-                  <span>•</span>
-                  <span>Spot a mistake? <a href="mailto:farooq.qureshi@outlook.com" className="text-blue-600 hover:text-blue-800 underline">Email me here</a></span>
+                <div className="text-xs font-bold text-black text-center space-y-1">
+                  <div>Found it useful? Star it on <a href="https://github.com/farooqqureshii/uoee.rocks" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">GitHub :)</a></div>
+                  <div>Spot a mistake? <a href="mailto:farooq.qureshi@outlook.com" className="text-blue-600 hover:text-blue-800 underline">Email me here</a></div>
+                  <div className="text-xs italic text-gray-600">Last Updated: August 15th</div>
                 </div>
               </div>
             </div>
