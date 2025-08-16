@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "bash build.sh",
   "installCommand": "npm install",
   "framework": "create-react-app"
 }
