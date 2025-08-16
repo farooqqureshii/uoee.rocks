@@ -5,9 +5,10 @@ import CourseRelationshipModal from './CourseRelationshipModal.tsx';
 interface FlowchartProps {
   selectedCourse: Course | null;
   onCourseClick: (course: Course) => void;
+  isFocusMode?: boolean;
 }
 
-const Flowchart: React.FC<FlowchartProps> = ({ selectedCourse, onCourseClick }) => {
+const Flowchart: React.FC<FlowchartProps> = ({ selectedCourse, onCourseClick, isFocusMode = false }) => {
   const [hoveredCourse, setHoveredCourse] = useState<Course | null>(null);
   const [lockedCourse, setLockedCourse] = useState<Course | null>(null);
   const [relationshipModalOpen, setRelationshipModalOpen] = useState(false);
@@ -133,56 +134,58 @@ const Flowchart: React.FC<FlowchartProps> = ({ selectedCourse, onCourseClick }) 
       }}
     >
                     {/* Header with Legend */}
-       <div className="sticky top-0 left-0 z-10 bg-white border-b-4 border-black shadow-brutal min-w-max">
-         <div className="max-w-7xl mx-auto px-6 py-4">
-                                 <div className="flex items-center justify-between space-x-8">
-             <div className="flex-1">
-               <div className="bg-yellow-200 border-2 border-black shadow-brutal px-3 py-2 transform -rotate-1 text-center">
-                 <h2 className="text-base font-black text-black">Course Timeline</h2>
-               </div>
-             </div>
-             
-             <div className="flex-1 text-center">
-               <div className="bg-blue-200 border-2 border-black shadow-brutal px-3 py-2 transform rotate-1">
-                 <div className="text-xs font-bold text-black space-y-1 text-left">
-                   <div>Hover over courses to see relationships</div>
-                   <div>Click or press A to see in-depth relationships</div>
-                   <div>{lockedCourse ? 'Press B to unlock the current selection' : 'Press B to lock your selection'}</div>
-                   {lockedCourse && <div className="text-orange-600">Locked on: {lockedCourse.code}</div>}
+       {!isFocusMode && (
+         <div className="sticky top-0 left-0 z-10 bg-white border-b-4 border-black shadow-brutal min-w-max">
+           <div className="max-w-7xl mx-auto px-6 py-4">
+                                     <div className="flex items-center justify-between space-x-8">
+               <div className="flex-1">
+                 <div className="bg-yellow-200 border-2 border-black shadow-brutal px-3 py-2 transform -rotate-1 text-center">
+                   <h2 className="text-base font-black text-black">Course Timeline</h2>
                  </div>
                </div>
-             </div>
-             
-             {/* Legend */}
-             <div className="flex-1">
-               <div className="bg-green-200 border-2 border-black shadow-brutal px-3 py-2 transform -rotate-1">
-                 <div className="grid grid-cols-3 gap-2 justify-end">
-                   <div className="flex items-center space-x-2">
-                     <div className="w-3 h-3 bg-yellow-200 border border-orange-600"></div>
-                     <span className="text-xs font-bold text-black">Prerequisites</span>
+               
+               <div className="flex-1 text-center">
+                 <div className="bg-blue-200 border-2 border-black shadow-brutal px-3 py-2 transform rotate-1">
+                   <div className="text-xs font-bold text-black space-y-1 text-left">
+                     <div>Hover over courses to see relationships</div>
+                     <div>Click or press A to see in-depth relationships</div>
+                     <div>{lockedCourse ? 'Press B to unlock the current selection' : 'Press B to lock your selection'}</div>
+                     {lockedCourse && <div className="text-orange-600">Locked on: {lockedCourse.code}</div>}
                    </div>
-                   <div className="flex items-center space-x-2">
-                     <div className="w-3 h-3 bg-orange-200 border border-red-600"></div>
-                     <span className="text-xs font-bold text-black">Indirect Prerequisites</span>
-                   </div>
-                   <div className="flex items-center space-x-2">
-                     <div className="w-3 h-3 bg-blue-200 border border-blue-600"></div>
-                     <span className="text-xs font-bold text-black">Corequisites</span>
-                   </div>
-                   <div className="flex items-center space-x-2">
-                     <div className="w-3 h-3 bg-pink-200 border border-pink-600"></div>
-                     <span className="text-xs font-bold text-black">Following Courses</span>
-                   </div>
-                   <div className="flex items-center space-x-2">
-                     <div className="w-3 h-3 bg-green-200 border border-green-600"></div>
-                     <span className="text-xs font-bold text-black">Selected Course</span>
+                 </div>
+               </div>
+               
+               {/* Legend */}
+               <div className="flex-1">
+                 <div className="bg-green-200 border-2 border-black shadow-brutal px-3 py-2 transform -rotate-1">
+                   <div className="grid grid-cols-3 gap-2 justify-end">
+                     <div className="flex items-center space-x-2">
+                       <div className="w-3 h-3 bg-yellow-200 border border-orange-600"></div>
+                       <span className="text-xs font-bold text-black">Prerequisites</span>
+                     </div>
+                     <div className="flex items-center space-x-2">
+                       <div className="w-3 h-3 bg-orange-200 border border-red-600"></div>
+                       <span className="text-xs font-bold text-black">Indirect Prerequisites</span>
+                     </div>
+                     <div className="flex items-center space-x-2">
+                       <div className="w-3 h-3 bg-blue-200 border border-blue-600"></div>
+                       <span className="text-xs font-bold text-black">Corequisites</span>
+                     </div>
+                     <div className="flex items-center space-x-2">
+                       <div className="w-3 h-3 bg-pink-200 border border-pink-600"></div>
+                       <span className="text-xs font-bold text-black">Following Courses</span>
+                     </div>
+                     <div className="flex items-center space-x-2">
+                       <div className="w-3 h-3 bg-green-200 border border-green-600"></div>
+                       <span className="text-xs font-bold text-black">Selected Course</span>
+                     </div>
                    </div>
                  </div>
                </div>
              </div>
            </div>
          </div>
-       </div>
+       )}
 
       {/* Flowchart Content */}
       <div className="p-8">
