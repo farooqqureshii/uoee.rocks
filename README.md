@@ -1,7 +1,7 @@
-# 🤘uoee.rocks[https://uoee.rocks]
+# 🤘(uoee.rocks)[https://uoee.rocks]
 
 A visual course timeline and browser for University of Ottawa Electrical Engineering students.
-Inspired by the Flowsheet's at the University of Buffalo[https://engineering.buffalo.edu/home/academics/undergrad/advisement/flowsheets.html]
+Inspired by the Flowsheet's at the (University of Buffalo)[https://engineering.buffalo.edu/home/academics/undergrad/advisement/flowsheets.html]
 ## Features
 
 - **Timeline View**: Interactive flowchart showing course progression by year and semester
