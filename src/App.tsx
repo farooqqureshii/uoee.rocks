@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { GraduationCap, BookOpen, Filter, Search, ArrowRight, Calendar, Users, Grid, GitBranch, Eye } from 'lucide-react';
+import { GraduationCap, BookOpen, Filter, Search, ArrowRight, Calendar, Users, Grid, GitBranch, Eye, Menu, X } from 'lucide-react';
 import CourseCard from './components/CourseCard.tsx';
 import CourseModal from './components/CourseModal.tsx';
 import Flowchart from './components/Flowchart.tsx';
@@ -16,6 +16,7 @@ function App() {
   const [selectedSpecialization, setSelectedSpecialization] = useState<string>('all');
   const [currentView, setCurrentView] = useState<'flowchart' | 'browser'>('flowchart');
   const [isFocusMode, setIsFocusMode] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleCourseClick = (course: Course) => {
     setModalCourse(course);
@@ -50,15 +51,15 @@ function App() {
       {/* Header */}
       {!isFocusMode && (
         <header className="bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 border-b-4 border-black shadow-brutal">
-          <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
             <div className="flex items-center justify-between">
               {/* Left: Logo */}
               <div className="flex-1">
                 <Logo />
               </div>
               
-              {/* Center: Contact Info */}
-              <div className="flex-1 flex justify-center">
+              {/* Center: Contact Info - Hidden on mobile */}
+              <div className="hidden md:flex flex-1 justify-center">
                 <div className="bg-white border-2 border-black shadow-brutal px-4 py-2">
                   <div className="text-xs font-bold text-black text-center space-y-1">
                     <div>Useful? Star it on <a href="https://github.com/farooqqureshii/uoee.rocks" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">GitHub :)</a></div>
@@ -68,45 +69,119 @@ function App() {
                 </div>
               </div>
               
-              {/* Right: View Toggle and Focus */}
+              {/* Right: View Toggle and Focus - Mobile Menu Button */}
               <div className="flex-1 flex justify-end space-x-2">
+                {/* Desktop Controls */}
+                <div className="hidden md:flex space-x-2">
+                  <div className="flex bg-gray-100 rounded-none border-2 border-black p-1 shadow-brutal">
+                    <button
+                      onClick={() => setCurrentView('flowchart')}
+                      className={`flex items-center space-x-2 px-4 py-2 rounded-none font-black transition-all ${
+                        currentView === 'flowchart'
+                          ? 'bg-white text-black shadow-brutal'
+                          : 'text-black hover:text-black'
+                      }`}
+                    >
+                      <GitBranch className="w-4 h-4" />
+                      <span>Timeline</span>
+                    </button>
+                    <button
+                      onClick={() => setCurrentView('browser')}
+                      className={`flex items-center space-x-2 px-4 py-2 rounded-none font-black transition-all ${
+                        currentView === 'browser'
+                          ? 'bg-white text-black shadow-brutal'
+                          : 'text-black hover:text-black'
+                      }`}
+                    >
+                      <Grid className="w-4 h-4" />
+                      <span>Browser</span>
+                    </button>
+                  </div>
+                  <button
+                    onClick={() => setIsFocusMode(!isFocusMode)}
+                    className={`flex items-center space-x-2 px-4 py-2 rounded-none font-black transition-all border-2 border-black shadow-brutal ${
+                      isFocusMode
+                        ? 'bg-blue-100 text-black'
+                        : 'bg-white text-black hover:bg-gray-50'
+                    }`}
+                  >
+                    <Eye className="w-4 h-4" />
+                    <span>Focus</span>
+                  </button>
+                </div>
+
+                {/* Mobile Menu Button */}
+                <button
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  className="md:hidden flex items-center space-x-2 px-3 py-2 bg-white border-2 border-black shadow-brutal font-black"
+                >
+                  {isMobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+                  <span className="text-xs">Menu</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Mobile Menu */}
+            {isMobileMenuOpen && (
+              <div className="md:hidden mt-4 bg-white border-2 border-black shadow-brutal p-4 space-y-3">
+                {/* Contact Info for Mobile */}
+                <div className="bg-gray-50 border border-black p-3">
+                  <div className="text-xs font-bold text-black space-y-1">
+                    <div>Useful? Star it on <a href="https://github.com/farooqqureshii/uoee.rocks" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">GitHub :)</a></div>
+                    <div>Spot a mistake? <a href="mailto:farooq.qureshi@outlook.com" className="text-blue-600 underline">Email me here</a></div>
+                    <div className="text-xs italic text-gray-600">Last Updated: August 15th</div>
+                  </div>
+                </div>
+
+                {/* View Toggle */}
                 <div className="flex bg-gray-100 rounded-none border-2 border-black p-1 shadow-brutal">
                   <button
-                    onClick={() => setCurrentView('flowchart')}
-                    className={`flex items-center space-x-2 px-4 py-2 rounded-none font-black transition-all ${
+                    onClick={() => {
+                      setCurrentView('flowchart');
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className={`flex-1 flex items-center justify-center space-x-2 px-3 py-2 rounded-none font-black transition-all text-sm ${
                       currentView === 'flowchart'
                         ? 'bg-white text-black shadow-brutal'
                         : 'text-black hover:text-black'
                     }`}
                   >
-                    <GitBranch className="w-4 h-4" />
+                    <GitBranch className="w-3 h-3" />
                     <span>Timeline</span>
                   </button>
                   <button
-                    onClick={() => setCurrentView('browser')}
-                    className={`flex items-center space-x-2 px-4 py-2 rounded-none font-black transition-all ${
+                    onClick={() => {
+                      setCurrentView('browser');
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className={`flex-1 flex items-center justify-center space-x-2 px-3 py-2 rounded-none font-black transition-all text-sm ${
                       currentView === 'browser'
                         ? 'bg-white text-black shadow-brutal'
                         : 'text-black hover:text-black'
                     }`}
                   >
-                    <Grid className="w-4 h-4" />
+                    <Grid className="w-3 h-3" />
                     <span>Browser</span>
                   </button>
                 </div>
+
+                {/* Focus Button */}
                 <button
-                  onClick={() => setIsFocusMode(!isFocusMode)}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-none font-black transition-all border-2 border-black shadow-brutal ${
+                  onClick={() => {
+                    setIsFocusMode(!isFocusMode);
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className={`w-full flex items-center justify-center space-x-2 px-4 py-2 rounded-none font-black transition-all border-2 border-black shadow-brutal text-sm ${
                     isFocusMode
                       ? 'bg-blue-100 text-black'
                       : 'bg-white text-black hover:bg-gray-50'
                   }`}
                 >
                   <Eye className="w-4 h-4" />
-                  <span>Focus</span>
+                  <span>{isFocusMode ? 'Exit Focus' : 'Focus Mode'}</span>
                 </button>
               </div>
-            </div>
+            )}
           </div>
         </header>
       )}
@@ -115,10 +190,10 @@ function App() {
       {isFocusMode && (
         <button
           onClick={() => setIsFocusMode(false)}
-          className="fixed top-4 right-4 z-50 flex items-center space-x-2 px-4 py-2 bg-white border-2 border-black shadow-brutal hover:bg-gray-50 transition-all font-black"
+          className="fixed top-4 right-4 z-50 flex items-center space-x-2 px-3 py-2 bg-white border-2 border-black shadow-brutal hover:bg-gray-50 transition-all font-black text-sm"
         >
           <Eye className="w-4 h-4" />
-          <span>Exit Focus</span>
+          <span className="hidden sm:inline">Exit Focus</span>
         </button>
       )}
 
@@ -145,81 +220,81 @@ function App() {
           {/* Browser Header with Instructions */}
           {!isFocusMode && (
             <div className="sticky top-0 z-10 bg-white border-b-4 border-black shadow-brutal">
-              <div className="max-w-7xl mx-auto px-6 py-4">
-                                   <div className="flex items-center justify-between space-x-8">
-                   <div className="flex-1">
-                     <div className="bg-purple-200 border-2 border-black shadow-brutal px-3 py-2 transform -rotate-1 text-center">
-                       <h2 className="text-base font-black text-black">Course Browser</h2>
-                     </div>
-                   </div>
-                   
-                   <div className="flex-1 text-center">
-                     <div className="bg-pink-200 border-2 border-black shadow-brutal px-3 py-2 transform rotate-1">
-                       <div className="text-xs font-bold text-black space-y-1 text-left">
-                         <div>Search and filter through all courses</div>
-                         <div>Click on courses to view details</div>
-                       </div>
-                     </div>
-                   </div>
-                 </div>
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+                <div className="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0 sm:space-x-8">
+                  <div className="flex-1 w-full sm:w-auto">
+                    <div className="bg-purple-200 border-2 border-black shadow-brutal px-3 py-2 transform -rotate-1 text-center">
+                      <h2 className="text-base font-black text-black">Course Browser</h2>
+                    </div>
+                  </div>
+                  
+                  <div className="flex-1 w-full sm:w-auto">
+                    <div className="bg-pink-200 border-2 border-black shadow-brutal px-3 py-2 transform rotate-1">
+                      <div className="text-xs font-bold text-black space-y-1 text-center sm:text-left">
+                        <div>Search and filter through all courses</div>
+                        <div>Click on courses to view details</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           )}
 
-          <div className="max-w-7xl mx-auto px-6 py-8">
-            <div className="space-y-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
+            <div className="space-y-6 sm:space-y-8">
               {/* Search and Filters */}
-              <div className="bg-white rounded-none border-4 border-black shadow-brutal-lg p-6">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                {/* Search */}
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black w-5 h-5" />
-                  <input
-                    type="text"
-                    placeholder="Search courses..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 border-2 border-black rounded-none focus:border-black focus:outline-none shadow-brutal font-bold"
-                  />
-                </div>
+              <div className="bg-white rounded-none border-4 border-black shadow-brutal-lg p-4 sm:p-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {/* Search */}
+                  <div className="relative sm:col-span-2 lg:col-span-1">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-black w-5 h-5" />
+                    <input
+                      type="text"
+                      placeholder="Search courses..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full pl-10 pr-4 py-3 border-2 border-black rounded-none focus:border-black focus:outline-none shadow-brutal font-bold"
+                    />
+                  </div>
 
-                {/* Year Filter */}
-                <select
-                  value={selectedYear}
-                  onChange={(e) => setSelectedYear(e.target.value as number | 'all')}
-                  className="px-4 py-3 border-2 border-black rounded-none focus:border-black focus:outline-none shadow-brutal font-bold"
-                >
-                  <option value="all">All Years</option>
-                  {years.map(year => (
-                    <option key={year} value={year}>Year {year}</option>
-                  ))}
-                </select>
+                  {/* Year Filter */}
+                  <select
+                    value={selectedYear}
+                    onChange={(e) => setSelectedYear(e.target.value as number | 'all')}
+                    className="px-4 py-3 border-2 border-black rounded-none focus:border-black focus:outline-none shadow-brutal font-bold"
+                  >
+                    <option value="all">All Years</option>
+                    {years.map(year => (
+                      <option key={year} value={year}>Year {year}</option>
+                    ))}
+                  </select>
 
-                {/* Specialization Filter */}
-                <select
-                  value={selectedSpecialization}
-                  onChange={(e) => setSelectedSpecialization(e.target.value)}
-                  className="px-4 py-3 border-2 border-black rounded-none focus:border-black focus:outline-none shadow-brutal font-bold"
-                >
-                  <option value="all">All Specializations</option>
-                  <option value="T">Communications [T]</option>
-                  <option value="S">Systems [S]</option>
-                  <option value="E">Electronics [E]</option>
-                  <option value="M">Microwave & Photonic [M]</option>
-                  <option value="P">Power & Sustainable Energy [P]</option>
-                </select>
+                  {/* Specialization Filter */}
+                  <select
+                    value={selectedSpecialization}
+                    onChange={(e) => setSelectedSpecialization(e.target.value)}
+                    className="px-4 py-3 border-2 border-black rounded-none focus:border-black focus:outline-none shadow-brutal font-bold"
+                  >
+                    <option value="all">All Specializations</option>
+                    <option value="T">Communications [T]</option>
+                    <option value="S">Systems [S]</option>
+                    <option value="E">Electronics [E]</option>
+                    <option value="M">Microwave & Photonic [M]</option>
+                    <option value="P">Power & Sustainable Energy [P]</option>
+                  </select>
 
-                {/* Results Count */}
-                <div className="flex items-center justify-center px-4 py-3 bg-white border-2 border-black rounded-none shadow-brutal">
-                  <span className="text-black font-black">
-                    {filteredCourses.length} courses
-                  </span>
+                  {/* Results Count */}
+                  <div className="flex items-center justify-center px-4 py-3 bg-white border-2 border-black rounded-none shadow-brutal">
+                    <span className="text-black font-black text-sm sm:text-base">
+                      {filteredCourses.length} courses
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
 
               {/* Course Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {filteredCourses.map(course => (
                   <CourseCard
                     key={course.id}
